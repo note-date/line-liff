@@ -20,9 +20,15 @@ async function main() {
 
   const profile = await liff.getProfile();
 
-  alert(profile.userId);
+  const url =
+    "https://form.jotform.com/261066633327052?line_uid="
+    + encodeURIComponent(profile.userId);
 
+  alert(url);
+
+  window.location.href = url;
 }
+
 main();
 </script>
 
