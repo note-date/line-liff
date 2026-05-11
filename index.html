@@ -1,69 +1,29 @@
 <!DOCTYPE html>
-<html lang="ja">
-
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>LINE連携中...</title>
-
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
-
 <body>
 
 <script>
+async function main() {
 
-(async () => {
+  await liff.init({
+    liffId: "2009955434-vrii8s9X"
+  });
 
-  try {
-
-    alert("START");
-
-    await liff.init({
-      liffId: "2009955434-vrii8s9X"
-    });
-
-    alert("INIT OK");
-
-    if (!liff.isLoggedIn()) {
-
-      alert("LOGIN START");
-
-      liff.login({
-        redirectUri: location.href
-      });
-
-      return;
-    }
-
-    alert("LOGIN OK");
-
-    const profile = await liff.getProfile();
-
-    alert("PROFILE OK");
-
-    const userId = profile.userId;
-
-    alert(userId);
-
-    location.replace(
-      "https://form.jotform.com/261066633327052?line_uid="
-      + encodeURIComponent(userId)
-    );
-
-  } catch (err) {
-
-    document.body.innerHTML =
-      "<h2>エラー</h2><pre>"
-      + JSON.stringify(err, null, 2)
-      + "</pre>";
-
-    console.error(err);
+  if (!liff.isLoggedIn()) {
+    liff.login();
+    return;
   }
 
-})();
+  const profile = await liff.getProfile();
 
+  alert(profile.userId);
+
+}
+main();
 </script>
 
 </body>
