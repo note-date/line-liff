@@ -1,35 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
+
 <body>
 
 <script>
-async function main() {
+(async () => {
 
-  await liff.init({
-    liffId: "2009955434-vrii8s9X"
-  });
+  try {
 
-  if (!liff.isLoggedIn()) {
-    liff.login();
-    return;
+    await liff.init({
+      liffId: "2009955434-vrii8s9X"
+    });
+
+    if (!liff.isLoggedIn()) {
+
+      liff.login({
+        redirectUri: location.href
+      });
+
+      return;
+    }
+
+    const profile = await liff.getProfile();
+
+    location.replace(
+      "https://form.jotform.com/261066633327052?line_uid="
+      + encodeURIComponent(profile.userId)
+    );
+
+  } catch (err) {
+
+    document.body.innerHTML =
+      "<h2>エラーが発生しました</h2>";
+
+    console.error(err);
   }
 
-  const profile = await liff.getProfile();
-
-  const url =
-    "https://form.jotform.com/261066633327052?line_uid="
-    + encodeURIComponent(profile.userId);
-
-  alert(url);
-
-  window.location.href = url;
-}
-
-main();
+})();
 </script>
 
 </body>
